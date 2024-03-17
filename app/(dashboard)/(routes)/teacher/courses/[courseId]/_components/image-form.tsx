@@ -1,7 +1,6 @@
 "use client"
 
 import { Button } from "@/components/ui/button";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { ImageIcon, Pencil, PlusCircle } from "lucide-react";
 import { useState } from "react";
 // import { Form, useForm } from "react-hook-form";
@@ -10,23 +9,12 @@ import * as z from "zod";
 
 
 
-import {
-    Form, 
-    FormControl, 
-    FormField,
-    FormItem,
-    FormMessage,
-}  from "@/components/ui/form"
-import { useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
-import toast from "react-hot-toast";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import { cn } from "@/lib/utils";
-import { Textarea } from "@/components/ui/textarea";
+import { FilesUploaded } from "@/components/file-upload";
 import { Course } from "@prisma/client";
+import axios from "axios";
 import Image from "next/image";
-import {  FilesUploaded } from "@/components/file-upload";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 
 
@@ -57,19 +45,11 @@ export const ImageForm = ({
 
       const router = useRouter();  
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            imageUrl: initialData?.imageUrl || "",
-        },
 
-    });
-
-    const { isSubmitting, isValid } = form.formState;
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
        try {
         await axios.patch(`/api/courses/${courseId}`, values);
-        toast.success("Description Updated");
+        toast.success("Image Updated");
         toggleEdit();
         router.refresh();
        } catch {
@@ -120,7 +100,7 @@ export const ImageForm = ({
                      endpoint="courseImage"
                      onChange={(url) => {
                         if (url) {
-                            onSubmit({ imageUrl: url });
+                            onSubmit({ imageUrl:url });
                         }
                      }}
                      />
