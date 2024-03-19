@@ -35,7 +35,7 @@ export async function POST(
             orderBy: {
                 position: "desc"
             },
-        });
+        })
 
         const newPosition = lastChapter ? lastChapter.position + 1 : 1;
 
